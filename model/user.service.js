@@ -3,7 +3,10 @@ import db from "../db/db.js";
 // ------------------- HELPERS ------------------------
 
 export const hashPassword = async (plainPassword) => {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.has(plainPassword,salt);
 
+    return hash; 
 };
 
 export const validatePassword = async (plainPassword, storedPassHash) => {
@@ -38,7 +41,7 @@ export const createUser = async (username, plainPassword, role = "user") => {
     if (role !== "user" && role !== "admin") throw new Error("Invalid role.");
 
     //store a hash of the password here...
-    const passwordHash = plainPassword;
+    const passwordHash = await hashPassword(plainPassword);
 
     const result = await db.execute(
         "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",

@@ -1,4 +1,6 @@
 //add imports to passport + passport-local
+import passport from 'passport';
+import 
 
 //serializing user into session data (user -> userId)
  

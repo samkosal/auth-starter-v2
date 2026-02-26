@@ -1,3 +1,4 @@
+import { createUser } from './../model/user.service.js';
 
 //register
 const registerPage = (req, res) => res.status(200).render("register", {
@@ -5,7 +6,14 @@ const registerPage = (req, res) => res.status(200).render("register", {
     errors: req.query.errors
 });
 const register = (req, res) => {
-    
+    const { username, password, confirm } =  req.body;
+
+    if (password === confirm) {
+        createUser(username, password, confirm);
+        res.redirect("/login");
+    } else {
+        res.redirect("/register?errors=Passwords do not match!")
+    }
 }
 
 //login
