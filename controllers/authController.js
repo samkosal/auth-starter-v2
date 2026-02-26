@@ -9,7 +9,7 @@ const register = (req, res) => {
     const { username, password, confirm } =  req.body;
 
     if (password === confirm) {
-        createUser(username, password, confirm);
+        createUser(username, password);
         res.redirect("/login");
     } else {
         res.redirect("/register?errors=Passwords do not match!")

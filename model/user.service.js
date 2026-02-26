@@ -1,16 +1,17 @@
 import db from "../db/db.js";
+import bcrypt from "bcrypt";
 
 // ------------------- HELPERS ------------------------
 
 export const hashPassword = async (plainPassword) => {
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.has(plainPassword,salt);
+    const hash = await bcrypt.hash(plainPassword,salt);
 
     return hash; 
 };
 
 export const validatePassword = async (plainPassword, storedPassHash) => {
-
+    
 };
 
 // ------------------- USER RECORDS ------------------------
@@ -38,6 +39,7 @@ export const findUserByUsername = async (username) => {
 
 export const createUser = async (username, plainPassword, role = "user") => {
     if (!username) throw new Error("Username is required.");
+    console.log(role);
     if (role !== "user" && role !== "admin") throw new Error("Invalid role.");
 
     //store a hash of the password here...
