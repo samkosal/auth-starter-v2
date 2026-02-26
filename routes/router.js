@@ -15,6 +15,8 @@ authRouter.post('/login', authCtl.login)             //log in a user (form submi
 //logout
 authRouter.post('/logout', authCtl.logout)  //log out a user
 
+authRouter.use(authCtl.isLoggedIn);
+
 //access pages
 authRouter.get('/admin', pageCtl.adminPage);  //displays admin (restricted) content
 authRouter.get('/user', pageCtl.userPage);    //displays user content

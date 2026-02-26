@@ -11,7 +11,8 @@ export const hashPassword = async (plainPassword) => {
 };
 
 export const validatePassword = async (plainPassword, storedPassHash) => {
-    
+    const matched = bcrypt.compare(plainPassword, storedPassHash);
+    return matched;
 };
 
 // ------------------- USER RECORDS ------------------------

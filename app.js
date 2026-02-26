@@ -2,6 +2,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import router from './routes/router.js';
+import './auth/localStrategy.js'; //run the script no need for export in this file
+import passport from 'passport';
 
 const app = express();
 
@@ -22,6 +24,11 @@ app.use(session({
         maxAge: 30 * 60 * 1000
     }
 }))
+//start passport and attache authentication features to every request
+app.use(passport.initialize());
+
+//enable persistant login sessions
+app.use(passport.session());
 
 //add passport middleware
 
