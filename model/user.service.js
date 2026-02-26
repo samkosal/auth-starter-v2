@@ -1,9 +1,16 @@
 import db from "../db/db.js";
-import { ensureUsersTable, hashPassword, validatePassword } from "./user.model.js";
 
-export const initUsers = async () => {
-    await ensureUsersTable();
+// ------------------- HELPERS ------------------------
+
+export const hashPassword = async (plainPassword) => {
+
 };
+
+export const validatePassword = async (plainPassword, storedPassHash) => {
+
+};
+
+// ------------------- USER RECORDS ------------------------
 
 export const findUserById = async (userId) => {
     const id = Number(userId);
@@ -20,10 +27,10 @@ export const findUserById = async (userId) => {
 export const findUserByUsername = async (username) => {
     const [ results ] = await db.query(
         "SELECT userId, username, password, role FROM users WHERE username = ? LIMIT 1",
-        [u]
+        [username]
     );
 
-    return results;
+    return results[0];
 };
 
 export const createUser = async (username, plainPassword, role = "user") => {
@@ -33,7 +40,7 @@ export const createUser = async (username, plainPassword, role = "user") => {
     //store a hash of the password here...
     const passwordHash = plainPassword;
 
-    const result = await db.exec(
+    const result = await db.execute(
         "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
         [username, passwordHash, role]
     );
@@ -42,21 +49,5 @@ export const createUser = async (username, plainPassword, role = "user") => {
         userId: result.insertId,
         username,
         role
-    };
-};
-
-export const verifyLogin = async (username, plainPassword) => {
-    const user = await findUserByUsername(username);
-    if (!user) return null;
-
-    //validate password here...
-    const ok = true;
-    if (!ok) return null;
-
-    //don't send password
-    return {
-        userId: user.userId,
-        username: user.username,
-        role: user.role
     };
 };

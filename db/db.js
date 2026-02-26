@@ -1,5 +1,7 @@
 import mysql from 'mysql2/promise';
-import { ensureUsersTable } from "./model/user.model.js";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_DATABASE, DB_PORT } = process.env;
 
@@ -13,8 +15,5 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
-
-//make sure table exists
-await ensureUsersTable();
 
 export default pool;

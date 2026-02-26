@@ -2,9 +2,6 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import router from './routes/router.js';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const app = express();
 
@@ -13,6 +10,8 @@ app.set('views', 'views');
 app.set('view engine', 'ejs');
 
 //default middleware
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({
@@ -23,10 +22,8 @@ app.use(session({
         maxAge: 30 * 60 * 1000
     }
 }))
-app.use(express.static('public'));
-app.use(express.urlencoded({ extended: false }));
 
-//configure passport...
+//add passport middleware
 
 //load routers
 app.use('/', router);
@@ -37,6 +34,7 @@ app.use((err, req, res, next) => {
     const message = err.message || "Unknown server error!";
 
     res.status(200).render('error', {
+        title: "Error",
         status,
         message
     })
